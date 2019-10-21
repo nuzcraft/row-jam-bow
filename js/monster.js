@@ -170,7 +170,7 @@ class Player extends Monster{
 
 class Rock extends Monster{
     constructor(tile){
-        super(tile, 17, 4);
+        super(tile, 4, 4);
         this.isRock = true;
         this.base_damage = 2;
     }
@@ -185,7 +185,7 @@ class Rock extends Monster{
 
 class Paper extends Monster{
     constructor(tile){
-        super(tile, 18, 3);
+        super(tile, 5, 3);
         this.isPaper = true;
         this.base_damage = 2;
     }
@@ -193,7 +193,7 @@ class Paper extends Monster{
 
 class Scissors extends Monster{
     constructor(tile){
-        super(tile, 19, 2);
+        super(tile, 6, 2);
         this.isScissors = true;
         this.base_damage = 2;
     }
@@ -209,7 +209,7 @@ class Scissors extends Monster{
 
 class Rock_Plus extends Monster{
     constructor(tile){
-        super(tile, 20, 8);
+        super(tile, 7, 8);
         this.isRock = true;
         this.base_bonus = 1;
         this.base_damage = 4;
@@ -225,7 +225,7 @@ class Rock_Plus extends Monster{
 
 class Paper_Plus extends Monster{
     constructor(tile){
-        super(tile, 21, 6);
+        super(tile, 8, 6);
         this.isPaper = true;
         this.base_bonus = 1;
         this.base_damage = 4;
@@ -234,7 +234,7 @@ class Paper_Plus extends Monster{
 
 class Scissors_Plus extends Monster{
     constructor(tile){
-        super(tile, 22, 4);
+        super(tile, 17, 4);
         this.isScissors = true;
         this.base_bonus = 1;
         this.base_damage = 4;
@@ -251,7 +251,7 @@ class Scissors_Plus extends Monster{
 
 class Rock_Anti extends Monster{
     constructor(tile){
-        super(tile, 23, 4);
+        super(tile, 18, 4);
         this.isRock = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
@@ -267,7 +267,7 @@ class Rock_Anti extends Monster{
 
 class Paper_Anti extends Monster{
     constructor(tile){
-        super(tile, 24, 3);
+        super(tile, 19, 3);
         this.isPaper = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
@@ -276,7 +276,7 @@ class Paper_Anti extends Monster{
 
 class Scissors_Anti extends Monster{
     constructor(tile){
-        super(tile, 25, 2);
+        super(tile, 20, 2);
         this.isScissors = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
