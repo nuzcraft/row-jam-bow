@@ -45,7 +45,7 @@ function draw() {
 		drawText("Score: " + score, 30, false, 70, "violet");
 
 		let garbed_in = "";
-		if (player.tile.monster.isRock){
+		if (player.isRock){
 			garbed_in = "rock";
 		} else {
 			garbed_in = "nothing";
