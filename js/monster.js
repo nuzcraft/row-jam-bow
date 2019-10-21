@@ -27,7 +27,7 @@ class Monster{
 
     doStuff(){
         let neighbors = this.tile.getAdjacentPassableNeighbors();
-        neighbors = neighbors.filter(t => !t.monster || t.monster.isPlayer);
+        // neighbors = neighbors.filter(t => !t.monster || t.monster.isPlayer);
         if(neighbors.length){
             neighbors.sort((a, b) => a.dist(player.tile) - b.dist(player.tile));
             let newTile = neighbors[0];
@@ -65,38 +65,6 @@ class Monster{
         }
     }
 
-    // tryMove(dx, dy){
-    //     let newTile = this.tile.getNeighbor(dx, dy);
-    //     if(newTile.passable){
-    //         this.lastMove = [dx, dy];
-    //         if(!newTile.monster) {
-    //             this.move(newTile);
-    //         } else {
-    //             if(this.isPlayer != newTile.monster.isPlayer){
-    //                 this.attackedThisTurn = true;
-    //                 newTile.monster.stunned = true;
-    //                 if ((this.isRock && newTile.monster.isScissors)||
-    //                     (this.isScissors && newTile.monsters.isPaper)||
-    //                     (this.isPaper && newTile.monsters.isRock)){
-    //                     this.bonusAttack = 1;
-    //                 } else if ((this.isRock && newTile.monster.isPaper)||
-    //                     (this.isPaper && newTile.monster.isScissors)||
-    //                     (this.isScissors && newTile.monster.isRock)){
-    //                     this.bonusAttack = -1;
-    //                 }
-    //                 newTile.monster.hit(2 + this.bonusAttack);
-    //                 this.bonusAttack = 0;
-
-    //                 shakeAmount = 5;
-                    
-    //                 this.offsetX = (newTile.x - this.tile.x)/2;
-    //                 this.offsetY = (newTile.y - this.tile.y)/2;
-    //             }
-    //         }
-    //         return true;
-    //     }
-    // }
-
     tryMove(dx, dy){
         let newTile = this.tile.getNeighbor(dx, dy);
         if(newTile.passable){
@@ -106,7 +74,7 @@ class Monster{
             } else {
                 // if(this.isPlayer != newTile.monster.isPlayer){ // can move into other monsters
                     this.attackedThisTurn = true;
-                    newTile.monster.stunned = true; // monster attacks won't stun each other
+                    newTile.monster.stunned = true; // monster attacks will stun each other, can remove this if needed
                     if((this.isPaper && newTile.monster.isRock) ||
                         (this.isRock && newTile.monster.isScissors) ||
                         (this.isScissors && newTile.monster.isPaper)){
@@ -200,21 +168,7 @@ class Player extends Monster{
     }
 }
 
-class AngryMonster extends Monster{
-    //Angry Monsters will attack other monsters if they are in the way
-    //Rock, Paper, and Scissors are all angry
-    doStuff(){ 
-        let neighbors = this.tile.getAdjacentPassableNeighbors();
-        // neighbors = neighbors.filter(t => !t.monster || t.monster.isPlayer);
-        if(neighbors.length){
-            neighbors.sort((a, b) => a.dist(player.tile) - b.dist(player.tile));
-            let newTile = neighbors[0];
-            this.tryMove(newTile.x - this.tile.x, newTile.y - this.tile.y);
-        }
-    }
-}
-
-class Rock extends AngryMonster{
+class Rock extends Monster{
     constructor(tile){
         super(tile, 17, 4);
         this.isRock = true;
@@ -229,7 +183,7 @@ class Rock extends AngryMonster{
     }
 }
 
-class Paper extends AngryMonster{
+class Paper extends Monster{
     constructor(tile){
         super(tile, 18, 3);
         this.isPaper = true;
@@ -237,7 +191,7 @@ class Paper extends AngryMonster{
     }
 }
 
-class Scissors extends AngryMonster{
+class Scissors extends Monster{
     constructor(tile){
         super(tile, 19, 2);
         this.isScissors = true;
@@ -253,7 +207,7 @@ class Scissors extends AngryMonster{
     }
 }
 
-class Rock_Plus extends AngryMonster{
+class Rock_Plus extends Monster{
     constructor(tile){
         super(tile, 20, 8);
         this.isRock = true;
@@ -269,7 +223,7 @@ class Rock_Plus extends AngryMonster{
     }
 }
 
-class Paper_Plus extends AngryMonster{
+class Paper_Plus extends Monster{
     constructor(tile){
         super(tile, 21, 6);
         this.isPaper = true;
@@ -278,7 +232,7 @@ class Paper_Plus extends AngryMonster{
     }
 }
 
-class Scissors_Plus extends AngryMonster{
+class Scissors_Plus extends Monster{
     constructor(tile){
         super(tile, 22, 4);
         this.isScissors = true;
@@ -295,7 +249,7 @@ class Scissors_Plus extends AngryMonster{
     }
 }
 
-class Rock_Anti extends AngryMonster{
+class Rock_Anti extends Monster{
     constructor(tile){
         super(tile, 23, 4);
         this.isRock = true;
@@ -311,7 +265,7 @@ class Rock_Anti extends AngryMonster{
     }
 }
 
-class Paper_Anti extends AngryMonster{
+class Paper_Anti extends Monster{
     constructor(tile){
         super(tile, 24, 3);
         this.isPaper = true;
@@ -320,7 +274,7 @@ class Paper_Anti extends AngryMonster{
     }
 }
 
-class Scissors_Anti extends AngryMonster{
+class Scissors_Anti extends Monster{
     constructor(tile){
         super(tile, 25, 2);
         this.isScissors = true;
