@@ -84,8 +84,8 @@ function showTitle(){
 	ctx.fillStyle = 'rgba(0,0,0,.75)';
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	gameState = "title";
-	drawText("SUPER", 40, true, canvas.height / 2 - 110, "white");
-	drawText("TURTLE MAN", 70, true, canvas.height / 2 - 50, "white");
+	drawText("ROW JAM BROUGH", 70, true, canvas.height / 2 - 110, "white");
+	drawText("~a rock,paper,scissors broughlike~", 25, true, canvas.height / 2 - 70, "white");
 
 	drawScores();
 }
