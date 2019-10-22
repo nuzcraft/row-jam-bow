@@ -102,7 +102,15 @@ class Exit extends Tile{
 				showTitle();
 			} else {
 				level++;
-				startLevel(Math.min(maxHp, player.hp+1));
+				let garbed_in = "";
+				if (player.isRock){
+					garbed_in = "rock";
+				} else if (player.isPaper){
+					garbed_in = "paper";
+				} else if (player.isScissors){
+					garbed_in = "scissors";
+				}
+				startLevel(Math.min(maxHp, player.hp+1), garbed_in);
 			}
 		}
 	}

@@ -47,10 +47,14 @@ function draw() {
 		let garbed_in = "";
 		if (player.isRock){
 			garbed_in = "rock";
+		} else if (player.isPaper){
+			garbed_in = "paper";
+		} else if (player.isScissors){
+			garbed_in = "scissors";
 		} else {
 			garbed_in = "nothing";
  		}
-		drawText("Clad In: " + garbed_in, 20, false, 100, "yellow");
+		drawText("garbed in: " + garbed_in, 20, false, 100, "yellow");
 
 		for(let i=0; i<player.spells.length; i++){
 			let spellText = (i+1) + ") " + (player.spells[i] || "");
@@ -94,11 +98,11 @@ function startGame(){
 	level = 1;
 	score = 0;
 	numSpells = 1;
-	startLevel(startingHp);
+	startLevel(startingHp, "rock");
 	gameState = "running";
 }
 
-function startLevel(playerHp, playerSpells){
+function startLevel(playerHp, playerState, playerSpells){
 	spawnRate = 15;
 	spawnCounter = spawnRate;
 
@@ -106,6 +110,21 @@ function startLevel(playerHp, playerSpells){
 	
 	player = new Player(randomPassableTile());
 	player.hp = playerHp;
+	if (playerState){
+		if (playerState == "rock"){
+			player.isRock = true;
+			player.isPaper = false;
+			player.isScissors = false;
+		} else if (playerState == "paper"){
+			player.isRock = false;
+			player.isPaper = true;
+			player.isScissors = false;
+		} else if (playerState == "scissors"){
+			player.isRock = false;
+			player.isPaper = false;
+			player.isScissors = true;
+		}
+	}
 	if(playerSpells){
 		player.spells = playerSpells;
 	}

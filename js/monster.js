@@ -174,6 +174,22 @@ class Player extends Monster{
             tick();
         }
     }
+    cycle(){
+        if (this.isRock){
+            this.isRock = false;
+            this.isPaper = true;
+            this.isScissors = false;
+        } else if (this.isPaper){
+            this.isRock = false;
+            this.isPaper = false;
+            this.isScissors = true;
+        } else { // isScissors
+            this.isRock = true;
+            this.isPaper = false;
+            this.isScissors = false;
+        }
+        tick(); // cycling takes a turn
+    }
 }
 
 class Rock extends Monster{
