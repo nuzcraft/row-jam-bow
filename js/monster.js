@@ -57,11 +57,19 @@ class Monster{
 
     drawHp() {
         for(let i=0; i<this.hp; i++){
-            drawSprite(
-                9,
-                this.getDisplayX() + (i%6)*(5/32),
-                this.getDisplayY() - Math.floor(i/6)*(5/16)
-            );
+            if (i%2 == 0){ // draw the first half of the health boop
+                drawSprite(
+                    9,
+                    this.getDisplayX() + (i%6)*(2/16),
+                    this.getDisplayY() - Math.floor(i/6)*(5/16)
+                );
+            } else if (i%2 == 1){ // draw the second half of the health boop
+                drawSprite(
+                    21,
+                    this.getDisplayX() + (i%6)*(2/16),
+                    this.getDisplayY() - Math.floor(i/6)*(5/16)
+                );
+            }
         }
     }
 
