@@ -6,6 +6,7 @@ This is based on the Javascript Broughlike Tutorial at https://nluqo.github.io/b
 WASD to move. Number keys to cast spells. Space to cycle forms (rock, paper, scissors).
 
 ## Development Log
+Source Code available at https://github.com/nuzcraft/row-jam-bow
 
 ### v0.2 "Minor Facelift"
 - health points are now hearts and decrease by 1/2 heart instead of 1 pip
