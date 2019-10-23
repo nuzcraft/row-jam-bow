@@ -66,7 +66,7 @@ function generateMonsters(){
 function spawnMonster(level){
     // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
 
-     let monsterType = shuffle(chooseMonsterType(level))[0];
+    let monsterType = shuffle(chooseMonsterType(level))[0];
     let monster = new monsterType(randomPassableTile());
     monsters.push(monster);
 }
