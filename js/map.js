@@ -1,3 +1,9 @@
+// COMO ESTAVA
+let monster_normal = [Rock, Paper, Scissors];
+let monster_plus = [Rock_Plus, Paper_Plus, Scissors_Plus];
+let monster_anti = [Rock_Anti, Paper_Anti, Scissors_Anti];
+
+
 function generateLevel(){
     tryTo('generate map', function() {
         return generateTiles() == randomPassableTile().getConnectedTiles().length;
@@ -54,13 +60,60 @@ function generateMonsters(){
     monsters = [];
     let numMonsters = level+1;
     for(let i=0;i<numMonsters;i++){
-        spawnMonster();
+        spawnMonster(level);
     }
 }
 
-function spawnMonster(){
+function spawnMonster(level){
     // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
-    let monsterType = shuffle([Rock, Paper, Scissors ,Rock_Plus, Paper_Plus, Scissors_Plus, Rock_Anti, Paper_Anti, Scissors_Anti])[0];
+
+    let monsterType = shuffle(chooseMonsterType(level))[0];
     let monster = new monsterType(randomPassableTile());
     monsters.push(monster);
 }
+
+
+
+function chooseMonsterType(level){  
+
+  if(level < 4){    
+    return antiMonster();
+  }
+  else if(level < 7){
+    return[antiMonster()[0],...normalMonster()]
+  } else{
+    return[antiMonster()[0],normalMonster()[0],...plusMonster()]
+  }
+}
+
+// COMO ESTAVA
+function normalMonster(){
+
+  return shuffle(monster_normal)
+}
+
+function plusMonster(){
+
+  return shuffle(monster_plus)
+}
+
+function antiMonster(){
+
+  return shuffle(monster_anti)
+}
+
+// COMO QUE CONTORNEI O PROBLEMA
+// function normalMonster(){
+
+//   return shuffle([Rock, Paper, Scissors])
+// }
+
+// function plusMonster(){
+
+//   return shuffle([Rock_Plus, Paper_Plus, Scissors_Plus])
+// }
+
+// function antiMonster(){
+
+//   return shuffle([Rock_Anti, Paper_Anti, Scissors_Anti])
+// }
