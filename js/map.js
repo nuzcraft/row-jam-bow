@@ -1,4 +1,3 @@
-// COMO ESTAVA
 let monster_normal = [Rock, Paper, Scissors];
 let monster_plus = [Rock_Plus, Paper_Plus, Scissors_Plus];
 let monster_anti = [Rock_Anti, Paper_Anti, Scissors_Anti];
@@ -67,17 +66,15 @@ function generateMonsters(){
 function spawnMonster(level){
     // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
 
-    let monsterType = shuffle(chooseMonsterType(level))[0];
+     let monsterType = shuffle(chooseMonsterType(level))[0];
     let monster = new monsterType(randomPassableTile());
     monsters.push(monster);
 }
 
-
-
 function chooseMonsterType(level){  
 
   if(level < 4){    
-    return antiMonster();
+    return normalMonster();
   }
   else if(level < 7){
     return[antiMonster()[0],...normalMonster()]
@@ -86,7 +83,6 @@ function chooseMonsterType(level){
   }
 }
 
-// COMO ESTAVA
 function normalMonster(){
 
   return shuffle(monster_normal)
@@ -102,18 +98,3 @@ function antiMonster(){
   return shuffle(monster_anti)
 }
 
-// COMO QUE CONTORNEI O PROBLEMA
-// function normalMonster(){
-
-//   return shuffle([Rock, Paper, Scissors])
-// }
-
-// function plusMonster(){
-
-//   return shuffle([Rock_Plus, Paper_Plus, Scissors_Plus])
-// }
-
-// function antiMonster(){
-
-//   return shuffle([Rock_Anti, Paper_Anti, Scissors_Anti])
-// }
