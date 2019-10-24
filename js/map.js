@@ -52,7 +52,7 @@ function randomPassableTile(){
 
 function generateMonsters(){
     monsters = [];
-    let numMonsters = level+1;
+    let numMonsters = level > 5 ? level+1 : 6;
     for(let i=0;i<numMonsters;i++){
         spawnMonster();
     }
@@ -60,7 +60,14 @@ function generateMonsters(){
 
 function spawnMonster(){
     // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
-    let monsterType = shuffle([Rock, Paper, Scissors ,Rock_Plus, Paper_Plus, Scissors_Plus, Rock_Anti, Paper_Anti, Scissors_Anti])[0];
+    let monsterType = shuffle([Rock_Plus, Paper_Plus, Scissors_Plus, Rock_Anti, Paper_Anti, Scissors_Anti])[0];
     let monster = new monsterType(randomPassableTile());
     monsters.push(monster);
+}
+
+function spawnWeakMonster(){
+  // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
+  let monsterType = shuffle([Rock, Paper, Scissors])[0];
+  let monster = new monsterType(randomPassableTile());
+  monsters.push(monster);
 }
