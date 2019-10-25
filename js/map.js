@@ -74,27 +74,16 @@ function spawnMonster(level){
 function chooseMonsterType(level){  
 
   if(level < 4){    
-    return normalMonster();
+    return shuffleMonsters(monster_normal);
   }
   else if(level < 7){
-    return[antiMonster()[0],...normalMonster()]
+    return[shuffleMonsters(monster_normal)[0],...shuffleMonsters(monster_anti)]
   } else{
-    return[antiMonster()[0],normalMonster()[0],...plusMonster()]
+    return[shuffleMonsters(monster_normal)[0],shuffleMonsters(monster_anti)[0],...shuffleMonsters(monster_plus)]
   }
 }
 
-function normalMonster(){
 
-  return shuffle(monster_normal)
+function shuffleMonsters(monsterArray){
+  return shuffle(monsterArray)
 }
-
-function plusMonster(){
-
-  return shuffle(monster_plus)
-}
-
-function antiMonster(){
-
-  return shuffle(monster_anti)
-}
-
