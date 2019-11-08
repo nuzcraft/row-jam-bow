@@ -199,6 +199,7 @@ class Rock extends Monster{
         super(tile, 4, 4);
         this.isRock = true;
         this.base_damage = 2;
+        this.name = "Rock";
     }
     update(){ // rocks move slower
         let startedStunned = this.stunned;
@@ -214,6 +215,7 @@ class Paper extends Monster{
         super(tile, 5, 3);
         this.isPaper = true;
         this.base_damage = 2;
+        this.name = "Paper";
     }
 }
 
@@ -222,6 +224,7 @@ class Scissors extends Monster{
         super(tile, 6, 2);
         this.isScissors = true;
         this.base_damage = 2;
+        this.name = "Scissors";
     }
     doStuff(){ // scissors move faster
         this.attackedThisTurn = false;

@@ -1,5 +1,0 @@
-weapons = {
-    rock,
-    paper,
-    scissors
-}

@@ -4,18 +4,27 @@ let monster_anti = [Rock_Anti, Paper_Anti, Scissors_Anti];
 
 
 function generateLevel(){
+    // this function will generate a level by creating a map, adding monsters, and adding treasure.
     tryTo('generate map', function() {
+        // this function will run generateTiles multiple times until it finds that all floor spaces are 
+        // connected. Only then will it continue.
         return generateTiles() == randomPassableTile().getConnectedTiles().length;
     });
+    console.log("Map successfully generated for level " + level + ".");
 
+    // generate monsters for the level
     generateMonsters();
 
+    // generate 3 treasures for the level
     for(let i=0;i<3;i++){
         randomPassableTile().treasure = true;
+        console.log("Treasure #" + (i+1) + " generated.");
     }
 }
 
 function generateTiles(){
+    // this function will generate a tiles for the map. The entire border is wall
+    // and ~30% of the map should be wall (besides the outer wall)
     let passableTiles = 0;
     tiles = [];
     for(let i=0;i<numTiles;i++){
@@ -33,6 +42,7 @@ function generateTiles(){
 }
 
 function inBounds(x, y){
+    // this will return true if inside the border
     return x>0 && y>0 && x<numTiles-1 && y<numTiles-1
 }
 
@@ -56,18 +66,22 @@ function randomPassableTile(){
 }
 
 function generateMonsters(){
+    // this is used to generate monsters for the level
     monsters = [];
-    const numMonsters = level > 5 ? level+1 : 6;
+    const numMonsters = level < 5 ? level+1 : 6;
+    console.log(numMonsters + " monsters will be generated.")
     for(let i=0;i<numMonsters;i++){
         spawnMonster(level);
     }
 }
 
 function spawnMonster(level){
+    // this will choose a monster type ans spawn it into a floor tile
     // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
     let monsterType = shuffle(chooseMonsterType(level))[0];
     let monster = new monsterType(randomPassableTile());
     monsters.push(monster);
+    console.log(monster.name + " was spawned.")
 }
 
 function chooseMonsterType(level){  

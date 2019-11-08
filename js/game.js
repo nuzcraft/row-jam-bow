@@ -78,7 +78,7 @@ function tick(){
 	}
 	spawnCounter--;
 	if(spawnCounter <=0){
-		spawnMonster();
+		spawnMonster(level);
 		spawnCounter = spawnRate;
 		spawnRate--;
 	}
@@ -95,6 +95,9 @@ function showTitle(){
 }
 
 function startGame(){
+	// this function is used to start the actual game. We set our level to 1 and score to 0
+	// we always start the game as rock
+	console.log("Starting game.");
 	level = 1;
 	score = 0;
 	numSpells = 1;
@@ -103,12 +106,15 @@ function startGame(){
 }
 
 function startLevel(playerHp, playerState, playerSpells){
+	// this function will be used to start any level
+	console.log("Starting level.");
 	spawnRate = 15;
 	spawnCounter = spawnRate;
 
 	generateLevel();
 	
 	player = new Player(randomPassableTile());
+	console.log("Player placed in level.");
 	player.hp = playerHp;
 	if (playerState){
 		if (playerState == "rock"){
