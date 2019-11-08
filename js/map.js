@@ -57,7 +57,7 @@ function randomPassableTile(){
 
 function generateMonsters(){
     monsters = [];
-    let numMonsters = level+1;
+    const numMonsters = level > 5 ? level+1 : 6;
     for(let i=0;i<numMonsters;i++){
         spawnMonster(level);
     }
@@ -65,7 +65,6 @@ function generateMonsters(){
 
 function spawnMonster(level){
     // let monsterType = shuffle([Goose, Ant, Mushroom, Eater, Toast])[0];
-
     let monsterType = shuffle(chooseMonsterType(level))[0];
     let monster = new monsterType(randomPassableTile());
     monsters.push(monster);
@@ -87,3 +86,15 @@ function chooseMonsterType(level){
 function shuffleMonsters(monsterArray){
   return shuffle(monsterArray)
 }
+
+function spawnWeakMonster(){  
+  const monsterTypes = [Rock, Paper, Scissors];
+  const monsterType = randomMonsterType( monsterTypes );
+  const monster = new monsterType(randomPassableTile());
+  monsters.push(monster);
+}
+
+function randomMonsterType(monsterTypes) {
+  return shuffle(monsterTypes)[0]
+}
+

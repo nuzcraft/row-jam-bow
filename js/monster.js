@@ -10,6 +10,7 @@ class Monster{
         this.bonusAttack = 0;
         this.base_bonus = 0;
         this.anti_multiplier = 1;
+        this.rebirth = false;
     }
 
     heal(damage){
@@ -125,6 +126,7 @@ class Monster{
         this.dead = true;
         this.tile.monster = null;
         this.sprite = 1;
+        (this.rebirth && level > 6) && spawnMinion();
     }
 
     move(tile){
@@ -279,6 +281,7 @@ class Rock_Anti extends Monster{
         this.isRock = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
+        this.rebirth = true;
     }
     update(){ // rocks move slower
         let startedStunned = this.stunned;
@@ -295,6 +298,7 @@ class Paper_Anti extends Monster{
         this.isPaper = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
+        this.rebirth = true;
     }
 }
 
@@ -304,6 +308,7 @@ class Scissors_Anti extends Monster{
         this.isScissors = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
+        this.rebirth = true;
     }
     doStuff(){ // scissors move faster
         this.attackedThisTurn = false;
