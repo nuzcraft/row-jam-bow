@@ -121,14 +121,17 @@ function startLevel(playerHp, playerState, playerSpells){
 			player.isRock = true;
 			player.isPaper = false;
 			player.isScissors = false;
+			player.sprite = 22;
 		} else if (playerState == "paper"){
 			player.isRock = false;
 			player.isPaper = true;
 			player.isScissors = false;
+			player.sprite = 0;
 		} else if (playerState == "scissors"){
 			player.isRock = false;
 			player.isPaper = false;
 			player.isScissors = true;
+			player.sprite = 23;
 		}
 	}
 	if(playerSpells){

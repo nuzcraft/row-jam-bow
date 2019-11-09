@@ -88,6 +88,7 @@ function chooseMonsterType(level){
 
   if(level < 4){    
     return shuffleMonsters(monster_normal);
+    // return shuffleMonsters(monster_anti);
   }
   else if(level < 7){
     return[shuffleMonsters(monster_normal)[0],...shuffleMonsters(monster_anti)]
