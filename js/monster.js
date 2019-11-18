@@ -10,6 +10,7 @@ class Monster{
         this.bonusAttack = 0;
         this.base_bonus = 0;
         this.anti_multiplier = 1;
+        this.rebirth = false;
     }
 
     heal(damage){
@@ -125,6 +126,9 @@ class Monster{
         this.dead = true;
         this.tile.monster = null;
         this.sprite = 1;
+        if (this.rebirth){ // possibly add a level restriction here if it gets too hard
+            spawnWeakMonster();
+        }
     }
 
     move(tile){
@@ -141,7 +145,7 @@ class Monster{
 
 class Player extends Monster{
     constructor(tile){
-        super(tile, 0, 3);
+        super(tile, 22, 3);
         this.isPlayer = true;
         this.teleportCounter = 0;
         this.spells = shuffle(Object.keys(spells)).splice(0, numSpells);
@@ -151,7 +155,6 @@ class Player extends Monster{
         this.base_bonus = 0;
         this.base_damage = 2;
         this.anti_multiplier = 1;
-        // this.weapon = shuffle(Object.keys(weapons)).splice(0, 1);
     }
     update(){
         this.shield--;
@@ -179,14 +182,17 @@ class Player extends Monster{
             this.isRock = false;
             this.isPaper = true;
             this.isScissors = false;
+            this.sprite = 0;
         } else if (this.isPaper){
             this.isRock = false;
             this.isPaper = false;
             this.isScissors = true;
+            this.sprite = 23;
         } else { // isScissors
             this.isRock = true;
             this.isPaper = false;
             this.isScissors = false;
+            this.sprite = 22;
         }
         tick(); // cycling takes a turn
     }
@@ -209,6 +215,7 @@ class Rock extends Monster{
         super(tile, 4, 4);
         this.isRock = true;
         this.base_damage = 2;
+        this.name = "Rock";
     }
     update(){ // rocks move slower
         let startedStunned = this.stunned;
@@ -224,6 +231,7 @@ class Paper extends Monster{
         super(tile, 5, 3);
         this.isPaper = true;
         this.base_damage = 2;
+        this.name = "Paper";
     }
 }
 
@@ -232,6 +240,7 @@ class Scissors extends Monster{
         super(tile, 6, 2);
         this.isScissors = true;
         this.base_damage = 2;
+        this.name = "Scissors";
     }
     doStuff(){ // scissors move faster
         this.attackedThisTurn = false;
@@ -291,6 +300,7 @@ class Rock_Anti extends Monster{
         this.isRock = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
+        this.rebirth = true;
     }
     update(){ // rocks move slower
         let startedStunned = this.stunned;
@@ -307,6 +317,7 @@ class Paper_Anti extends Monster{
         this.isPaper = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
+        this.rebirth = true;
     }
 }
 
@@ -316,6 +327,7 @@ class Scissors_Anti extends Monster{
         this.isScissors = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
+        this.rebirth = true;
     }
     doStuff(){ // scissors move faster
         this.attackedThisTurn = false;
