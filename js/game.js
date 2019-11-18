@@ -58,24 +58,20 @@ function draw() {
  		}
 		drawText("garbed in: " + garbed_in, 20, false, 100, "yellow");
 
-    drawSpells()
+    player.spells.forEach((spell, index) => drawSpells(spell, index))
 }
 
 
-function drawSpells() {
-  
-  for(let i=0; i<player.spells.length; i++){
-    let spellText = `${i+1}) ${player.spells[i] || "No spells"}`;
-    
-    if(hoverMenu)
-    {
-      drawText(`Description`, 20, false, 120+i*40, "aqua");
-    }
-    else 
-    {
-      drawText(spellText, 20, false, 120+i*40, "aqua");
-    }    
+function drawSpells( spell, index ) {
+  const spellText = `${index+1}) ${spell || "Out of spells"}`;  
+  if(hoverMenu)
+  {
+    drawText(`${spell}:description`, 20, false, 120+index*40, "aqua");
   }
+  else 
+  {
+    drawText(spellText, 20, false, 120+index*40, "aqua");
+  }      
 }
 }
 function tick(){

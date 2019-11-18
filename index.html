@@ -12,7 +12,8 @@
 	}
 </style>
 
-<canvas id="gameCanvas"></canvas>
+<canvas id="gameCanvas" data-type="game-canvas" ></canvas>
+
 <script src="js/game.js"></script>
 <script src="js/map.js"></script>
 <script src="js/tile.js"></script>
@@ -63,7 +64,7 @@
 
   initSounds();
   
-var gameCanvas = document.getElementById("gameCanvas");
+const gameCanvas = document.querySelector("[data-type='game-canvas']");
 
 function mouseTracker(){
   const e = window.event
@@ -72,7 +73,9 @@ function mouseTracker(){
 
   const canvasX = gameCanvas.offsetLeft
   const canvasY = gameCanvas.offsetTop
+
   const gameAreaWidth = gameCanvas.offsetWidth * 0.68
+  
   const menuLeft = canvasX + gameAreaWidth
 
   if(mouseX > menuLeft){
