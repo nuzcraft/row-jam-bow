@@ -190,6 +190,18 @@ class Player extends Monster{
         }
         tick(); // cycling takes a turn
     }
+    Exchange(){      
+      if(this.hp > 3){
+        this.spells[this.spells.length] = shuffle(Object.keys(spells)).splice(0, numSpells);
+        this.hp-= 3;
+      }else if(this.hp == 2 && this.spells[0] == undefined){
+        this.spells[0] = shuffle(Object.keys(spells)).splice(0, numSpells);
+        this.hp--;
+      } 
+      else {
+        alert("you don't have enough life")
+      }
+    }
 }
 
 class Rock extends Monster{
