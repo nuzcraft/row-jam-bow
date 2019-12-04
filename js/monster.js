@@ -56,6 +56,7 @@ class Monster{
         this.offsetY -= Math.sign(this.offsetY)*(1/8)
     }
 
+
     drawHp() {
         for(let i=0; i<this.hp; i++){
             if (i%2 == 0){ // draw the first half of the health boop
@@ -94,6 +95,11 @@ class Monster{
                         this.bonusAttack = -(1 + this.base_bonus) * this.anti_multiplier;
                     }
                     newTile.monster.hit(this.base_damage + this.bonusAttack);
+                    if (this.bonusAttack > 0) {
+                        newTile.setEffect(24);
+                    } else if (this.bonusAttack < 0) {
+                        newTile.setEffect(25);
+                    }
                     this.bonusAttack = 0;
 
                     shakeAmount = 5;

@@ -12,7 +12,8 @@
 	}
 </style>
 
-<canvas></canvas>
+<canvas id="gameCanvas" data-type="game-canvas" ></canvas>
+
 <script src="js/game.js"></script>
 <script src="js/monster.js"></script>
 <script src="js/map.js"></script>
@@ -62,5 +63,29 @@
 	
 	setupCanvas();
 
-	initSounds();
+  initSounds();
+  
+const gameCanvas = document.querySelector("[data-type='game-canvas']");
+
+function mouseTracker(){
+  const e = window.event
+  const mouseX = e.clientX
+  const mouseY = e.clientY
+
+  const canvasX = gameCanvas.offsetLeft
+  const canvasY = gameCanvas.offsetTop
+
+  const gameAreaWidth = gameCanvas.offsetWidth * 0.68
+  
+  const menuLeft = canvasX + gameAreaWidth
+
+  if(mouseX > menuLeft){
+    hoverMenu = true
+  }  else {
+    hoverMenu = false
+  }        
+}
+
+gameCanvas.addEventListener('mousemove', () => mouseTracker(), true)
+
 </script>

@@ -51,6 +51,9 @@ class Tile{
 		if (this.treasure){
 			drawSprite(12, this.x, this.y);
 		}
+	}
+
+	draw_effect() {
 		if(this.effectCounter){
 			this.effectCounter--;
 			ctx.globalAlpha = this.effectCounter/30;
