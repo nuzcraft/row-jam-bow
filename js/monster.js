@@ -56,6 +56,7 @@ class Monster{
         this.offsetY -= Math.sign(this.offsetY)*(1/8)
     }
 
+
     drawHp() {
         for(let i=0; i<this.hp; i++){
             if (i%2 == 0){ // draw the first half of the health boop

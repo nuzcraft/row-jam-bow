@@ -41,6 +41,12 @@ function draw() {
 		
 		player.draw();
 
+		for(let i=0;i<numTiles;i++){
+			for(let j=0;j<numTiles;j++){
+				getTile(i,j).draw_effect();
+			}
+		}
+
 		drawText("Level: " + level, 30, false, 40, "violet");
 		drawText("Score: " + score, 30, false, 70, "violet");
 
