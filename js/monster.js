@@ -202,7 +202,8 @@ class Player extends Monster{
         }
         tick(); // cycling takes a turn
     }
-    Exchange(){      
+    
+    exchange(){      
       if(this.hp > 3){
         this.spells[this.spells.length] = shuffle(Object.keys(spells)).splice(0, numSpells);
         this.hp-= 3;

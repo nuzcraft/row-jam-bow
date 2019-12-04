@@ -64,7 +64,11 @@ function draw() {
  		}
 		drawText("garbed in: " + garbed_in, 20, false, 100, "yellow");
 
-    player.spells.forEach((spell, index) => drawSpells(spell, index))
+	player.spells.forEach((spell, index) => drawSpells(spell, index))
+	
+	// give them the option to trade life for an extra spell
+	drawText("t) trade life for", 20, false, 545, "aqua");
+	drawText("   a new spell", 20, false, 560, "aqua");
 }
 
 
