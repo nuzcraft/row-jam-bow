@@ -1,3 +1,5 @@
+var hoverMenu = false;
+
 function setupCanvas() {
 	canvas = document.querySelector("canvas");
 	ctx = canvas.getContext("2d");
@@ -62,13 +64,22 @@ function draw() {
  		}
 		drawText("garbed in: " + garbed_in, 20, false, 100, "yellow");
 
-		for(let i=0; i<player.spells.length; i++){
-			let spellText = (i+1) + ") " + (player.spells[i] || "");
-			drawText(spellText, 20, false, 120+i*40, "aqua");
-		}
-	}
+    player.spells.forEach((spell, index) => drawSpells(spell, index))
 }
 
+
+function drawSpells( spell, index ) {
+  const spellText = `${index+1}) ${spell || "Out of spells"}`;  
+  if(hoverMenu)
+  {
+    drawText(`${spell}:description`, 20, false, 120+index*40, "aqua");
+  }
+  else 
+  {
+    drawText(spellText, 20, false, 120+index*40, "aqua");
+  }      
+}
+}
 function tick(){
 	for(let k=monsters.length-1;k>=0;k--){
 		if(!monsters[k].dead){
