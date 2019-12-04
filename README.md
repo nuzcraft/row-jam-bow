@@ -3,17 +3,20 @@
 This is based on the Javascript Broughlike Tutorial at https://nluqo.github.io/broughlike-tutorial/index.html.
 
 ### Controls
-WASD to move. Number keys to cast spells. Space to cycle forms (rock, paper, scissors).
+WASD to move. Number keys to cast spells. Space to cycle forms (rock, paper, scissors). 't' to trade life for a new spell. Mouse hover over spells to see a description.
 
 ## Development Log
 Source Code available at https://github.com/nuzcraft/row-jam-bow
 
 ### v0.3 "Collaboration"
-- special thanks to Felipe Brunetti (@felipebrunetti94) for his pull requests!
+- special thanks to Felipe Brunetti (@felipebrunetti94) for their pull requests!
+- special thanks to Leonardo Negreiros de Oliveira (@negreirosleo) for their QA work!
 - updated enemy progression (can now hit level 10)
 - tougher enemies should only appear at later levels
 - 'anti' enemies will spawn a normal monster when they die (similar to when you pick up a coin)
-- play sprite changes with the different forms
+- player sprite changes with the different forms
+- spell descriptions are shown when you hover your mouse over the spell side of the screen
+- there is a new option to trade life (2 whole hearts!!) for a new spell. If you are full on spells, this will be a new slot, else it will fill an empty slot.
 
 ### v0.2 "Minor Facelift"
 - health points are now hearts and decrease by 1/2 heart instead of 1 pip
