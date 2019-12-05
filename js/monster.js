@@ -178,7 +178,7 @@ class Player extends Monster{
         let spellName = this.spells[index];
         if(spellName){
             delete this.spells[index];
-            spells[spellName]();
+            spells[spellName].funct();
             playSound("spell");
             tick();
         }

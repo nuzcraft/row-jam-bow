@@ -76,7 +76,8 @@ function drawSpells( spell, index ) {
   const spellText = `${index+1}) ${spell || "Out of spells"}`;  
   if(hoverMenu)
   {
-    drawText(`${spell}:description`, 20, false, 120+index*40, "aqua");
+	drawText(`${spell}:`, 15, false, 120+index*40, "aqua");
+	drawText(`${spells[spell].description}`, 15, false, 135+index*40, "aqua");
   }
   else 
   {
