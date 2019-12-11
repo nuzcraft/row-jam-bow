@@ -73,10 +73,15 @@ function draw() {
 
 
 function drawSpells( spell, index ) {
-  const spellText = `${index+1}) ${spell || "Out of spells"}`;  
+  const spellText = `${index+1}) ${spells[spell].name || "Out of spells"}`;  
   if(hoverMenu)
   {
-	drawText(`${spell}:`, 15, false, 120+index*40, "aqua");
+	if (spells[spell].damage_type)
+	{
+		drawText(`${spells[spell].name} (${spells[spell].damage_type || ""})`, 15, false, 120+index*40, "aqua");
+	} else {
+		drawText(`${spells[spell].name}`, 15, false, 120+index*40, "aqua");
+	}
 	drawText(`${spells[spell].description}`, 15, false, 135+index*40, "aqua");
   }
   else 

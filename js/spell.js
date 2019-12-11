@@ -1,9 +1,10 @@
 spells = {
-    WOOP: {
+    TELEPORT: {
         funct: function() {
             player.move(randomPassableTile());
         },
-        description: "warp to random tile"
+        description: "warp to random tile",
+        name: "TELEPORT"
     },
     QUAKE: {
         funct: function() {
@@ -18,7 +19,9 @@ spells = {
             }
             shakeAmount = 20;
         },
-        description: "damages if next to a wall"
+        description: "damages if next to a wall",
+        damage_type: "rock",
+        name: "QUAKE"
     },
     MAELSTROM: {
         funct: function() {
@@ -27,13 +30,15 @@ spells = {
                 monsters[i].teleportCounter = 2;
             }
         }, 
-        description: "move enemies to random tile"
+        description: "warp enemies to random tiles",
+        name: "MAELSTROM"
     },
     MULLIGAN: {
         funct: function() {
             startLevel(1, player.spells);
         },
-        description: "start over, keep spells"
+        description: "start over, keep spells",
+        name: "MULLIGAN"
     },
     AURA: {
         funct: function() {
@@ -46,7 +51,8 @@ spells = {
             player.tile.setEffect(13);
             player.heal(1);
         }, 
-        description: "heal immediate area"
+        description: "heal immediate area",
+        name: "HEALING AURA"
     },
     DASH: {
         funct: function(){
@@ -70,7 +76,9 @@ spells = {
                 })
             }
         }, 
-        description: "sonic speed smack"
+        description: "sonic speed smack",
+        damage_type: "paper",
+        name: "DASH"
     },
     DIG: {
         funct: function(){
@@ -85,7 +93,8 @@ spells = {
             player.tile.setEffect(13);
             player.heal(2);
         },
-        description: "remove all walls"
+        description: "remove all walls",
+        name: "DIG"
     },
     KINGMAKER: {
         funct: function(){
@@ -94,7 +103,8 @@ spells = {
                 monsters[i].tile.treasure = true;
             }
         },
-        description: "heal monsters, get treasure"
+        description: "heal monsters, get treasure",
+        name: "KINGMAKER"
     },
     ALCHEMY: {
         funct: function(){
@@ -104,13 +114,15 @@ spells = {
                 }
             });
         }, 
-        description: "change walls to treasure"
+        description: "change walls to treasure",
+        name: "ALCHEMY"
     },
     POWER: {
         funct: function(){
             player.bonusAttack = 5;
         },
-        description: "next attack is powerful"
+        description: "next attack is powerful",
+        name: "POWER"
     },
     BUBBLE: {
         funct: function(){
@@ -120,7 +132,8 @@ spells = {
                 }
             }
         },
-        description: "copy spells into empty slots"
+        description: "copy spells into empty slots",
+        name: "BUBBLE"
     },
     BRAVERY: {
         funct: function(){
@@ -129,15 +142,19 @@ spells = {
                 monsters[i].stunned = true;
             }
         },
-        description: "two turn shield"
+        description: "two turn shield",
+        name: "BRAVERY"
     },
-    BOLT: {
+    SCISSOR_SHOT: {
         funct: function(){
-            boltTravel(player.lastMove, 15 + Math.abs(player.lastMove[1]), 4);
+            // boltTravel(player.lastMove, 15 + Math.abs(player.lastMove[1]), 4, scissors);
+            boltTravel(player.lastMove, 20, 4, "scissors");
         },
-        description: "shoot lighting bolt"
+        description: "shoot scissors",
+        damage_type: "scissors",
+        name: "SCISSOR SHOT"
     },
-    CROSS: {
+    ROCK_THROW: {
         funct: function(){
             let directions = [
                 [0, -1],
@@ -146,12 +163,15 @@ spells = {
                 [1, 0]
             ];
             for(let k=0;k<directions.length;k++){
-                boltTravel(directions[k], 15+Math.abs(directions[k][1]), 2);
+                // boltTravel(directions[k], 15+Math.abs(directions[k][1]), 2, rock);
+                boltTravel(directions[k], 18, 2, "rock");
             }
         },
-        description: "shoot bolts horiz and vert"
+        description: "throw rocks horiz and vert",
+        damage_type: "rock",
+        name: "ROCK THROW"
     },
-    EX: {
+    ORIGAMI_BLOOM: {
         funct: function(){
             let directions = [
                 [-1, -1],
@@ -160,16 +180,16 @@ spells = {
                 [1, 1]
             ];
             for (let k=0; k<directions.length;k++){
-                boltTravel(directions[k], 14, 3);
+                boltTravel(directions[k], 5, 3, "paper");
             }
         },
-        description: "shoot bolts diag"
+        description: "blast paper diagonally",
+        damage_type: "paper",
+        name: "ORIGAMI BLOOM"
     }
 };
 
-spell_descriptions = 
-
-function boltTravel(direction, effect, damage){
+function boltTravel(direction, effect, damage, damage_type){
     let newTile = player.tile;
     while (true){
         let testTile = newTile.getNeighbor(direction[0], direction[1]);
