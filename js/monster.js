@@ -171,7 +171,21 @@ class Player extends Monster{
         }
     }
     addSpell(){
-        let newSpell = shuffle(Object.keys(spells))[0];
+        // this will let us upgrade our spells
+        let max_spell_level = 1;
+        if (level >= 3){
+            max_spell_level = 2;
+        } else if (level >= 6){
+            max_spell_level = 3;
+        }
+        
+        for (spell of spells){
+            if (spell.rarity <= max_spell_level){
+                new_spell_list.push(spell);
+            }
+        }
+
+        let newSpell = shuffle(Object.keys(new_spell_list))[0];
         this.spells.push(newSpell);
     }
     castSpell(index){

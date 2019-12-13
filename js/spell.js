@@ -4,7 +4,8 @@ spells = {
             player.move(randomPassableTile());
         },
         description: "warp to random tile",
-        name: "TELEPORT"
+        name: "TELEPORT",
+        rarity: 1
     },
     QUAKE: {
         funct: function() {
@@ -12,8 +13,16 @@ spells = {
                 for(let j=0; j<numTiles; j++){
                     let tile = getTile(i,j);
                     if(tile.monster){
+                        bonusAttack = 0;
+                        if (tile.monster.isScissors){
+                            bonusAttack = 1;
+                            tile.setEffect(24);
+                        } else if (tile.monster.isPaper){
+                            bonusAttack = -1;
+                            tile.setEffect(25);
+                        }
                         let numWalls = 4 - tile.getAdjacentPassableNeighbors().length;
-                        tile.monster.hit(numWalls*2);
+                        tile.monster.hit(numWalls*2 + bonusAttack);
                     }
                 }
             }
@@ -21,7 +30,8 @@ spells = {
         },
         description: "damages if next to a wall",
         damage_type: "rock",
-        name: "QUAKE"
+        name: "QUAKE",
+        rarity: 2
     },
     MAELSTROM: {
         funct: function() {
@@ -31,14 +41,16 @@ spells = {
             }
         }, 
         description: "warp enemies to random tiles",
-        name: "MAELSTROM"
+        name: "MAELSTROM",
+        rarity: 2
     },
     MULLIGAN: {
         funct: function() {
             startLevel(1, player.spells);
         },
         description: "start over, keep spells",
-        name: "MULLIGAN"
+        name: "MULLIGAN",
+        rarity: 2
     },
     AURA: {
         funct: function() {
@@ -52,7 +64,8 @@ spells = {
             player.heal(1);
         }, 
         description: "heal immediate area",
-        name: "HEALING AURA"
+        name: "HEALING AURA",
+        rarity: 1
     },
     DASH: {
         funct: function(){
@@ -68,17 +81,27 @@ spells = {
             if(player.tile != newTile){
                 player.move(newTile);
                 newTile.getAdjacentNeighbors().forEach(t => {
+                    t.setEffect(14); // base effect
                     if(t.monster){
-                        t.setEffect(14);
+                        // check to see if the monster is rock or scissors
+                        if (t.monster.isRock){
+                            bonusAttack = 1;
+                            t.setEffect(24);
+                        } else if (t.monster.isScissors){
+                            bonusAttack = -1;
+                            t.setEffect(25);
+                        }
                         t.monster.stunned = true;
-                        t.monster.hit(1);
+                        t.monster.hit(1 + bonusAttack);
                     }
                 })
+                shakeAmount = 5;
             }
         }, 
         description: "sonic speed smack",
         damage_type: "paper",
-        name: "DASH"
+        name: "DASH",
+        rarity: 1
     },
     DIG: {
         funct: function(){
@@ -94,7 +117,8 @@ spells = {
             player.heal(2);
         },
         description: "remove all walls",
-        name: "DIG"
+        name: "DIG",
+        rarity: 2
     },
     KINGMAKER: {
         funct: function(){
@@ -104,7 +128,8 @@ spells = {
             }
         },
         description: "heal monsters, get treasure",
-        name: "KINGMAKER"
+        name: "KINGMAKER",
+        rarity: 2
     },
     ALCHEMY: {
         funct: function(){
@@ -115,14 +140,16 @@ spells = {
             });
         }, 
         description: "change walls to treasure",
-        name: "ALCHEMY"
+        name: "ALCHEMY",
+        rarity: 2
     },
     POWER: {
         funct: function(){
             player.bonusAttack = 5;
         },
         description: "next attack is powerful",
-        name: "POWER"
+        name: "POWER",
+        rarity: 1
     },
     BUBBLE: {
         funct: function(){
@@ -133,17 +160,19 @@ spells = {
             }
         },
         description: "copy spells into empty slots",
-        name: "BUBBLE"
+        name: "BUBBLE",
+        rarity: 3
     },
     BRAVERY: {
         funct: function(){
-            player.shield = 2;
+            player.shield = 3;
             for(let i=0;i<monsters.length;i++){
                 monsters[i].stunned = true;
             }
         },
         description: "two turn shield",
-        name: "BRAVERY"
+        name: "BRAVERY",
+        rarity: 1
     },
     SCISSOR_SHOT: {
         funct: function(){
@@ -152,7 +181,8 @@ spells = {
         },
         description: "shoot scissors",
         damage_type: "scissors",
-        name: "SCISSOR SHOT"
+        name: "SCISSOR SHOT",
+        rarity: 2
     },
     ROCK_THROW: {
         funct: function(){
@@ -169,7 +199,8 @@ spells = {
         },
         description: "throw rocks horiz and vert",
         damage_type: "rock",
-        name: "ROCK THROW"
+        name: "ROCK THROW",
+        rarity: 3
     },
     ORIGAMI_BLOOM: {
         funct: function(){
@@ -185,7 +216,8 @@ spells = {
         },
         description: "blast paper diagonally",
         damage_type: "paper",
-        name: "ORIGAMI BLOOM"
+        name: "ORIGAMI BLOOM",
+        rarity: 3
     }
 };
 
@@ -196,6 +228,14 @@ function boltTravel(direction, effect, damage, damage_type){
         if(testTile.passable){
             newTile = testTile;
             if (newTile.monster){
+                bonusAttack = 0;
+                if (newTile.monster.isScissors){
+                    bonusAttack = 1;
+                    newTile.setEffect(24);
+                } else if (newTile.monster.isPaper){
+                    bonusAttack = -1;
+                    newTile.setEffect(25);
+                }
                 newTile.monster.hit(damage);
             }
             newTile.setEffect(effect);
