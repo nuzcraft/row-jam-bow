@@ -154,13 +154,15 @@ class Player extends Monster{
         super(tile, 22, 3);
         this.isPlayer = true;
         this.teleportCounter = 0;
-        this.spells = shuffle(Object.keys(spells)).splice(0, numSpells);
+        // this.spells = shuffle(Object.keys(spells)).splice(0, numSpells);
+        this.spells = [];
         this.isRock = true;
         this.isPaper = false;
         this.isScissors = false;
         this.base_bonus = 0;
         this.base_damage = 2;
         this.anti_multiplier = 1;
+        this.getSpellList()
     }
     update(){
         this.shield--;
@@ -178,16 +180,19 @@ class Player extends Monster{
         } else if (level >= 6){
             max_spell_level = 3;
         }
+
+        var new_spell_list = {};
         
-        for (spell of spells){
-            if (spell.rarity <= max_spell_level){
-                new_spell_list.push(spell);
+        for (var key of Object.keys(spells)) {
+            if (spells[key].rarity <= max_spell_level) {
+                new_spell_list[key] = spells[key];
             }
         }
 
         let newSpell = shuffle(Object.keys(new_spell_list))[0];
         this.spells.push(newSpell);
     }
+    
     castSpell(index){
         let spellName = this.spells[index];
         if(spellName){
@@ -232,6 +237,13 @@ class Player extends Monster{
       else {
         alert("you don't have enough life")
       }
+    }
+
+    getSpellList(){
+        var i;
+        for (i = 0; i < numSpells; i++) {
+            this.addSpell();
+        }
     }
 }
 
