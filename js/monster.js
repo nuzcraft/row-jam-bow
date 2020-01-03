@@ -1,6 +1,7 @@
 class Monster{
     constructor(tile, sprite, hp){
         this.move(tile);
+        this.isPlayer = false;
         this.sprite = sprite;
         this.hp = hp;
         this.teleportCounter = 2;
@@ -83,29 +84,35 @@ class Monster{
                 this.move(newTile);
             } else {
                 // if(this.isPlayer != newTile.monster.isPlayer){ // can move into other monsters
-                    this.attackedThisTurn = true;
-                    newTile.monster.stunned = true; // monster attacks will stun each other, can remove this if needed
-                    if((this.isPaper && newTile.monster.isRock) ||
-                        (this.isRock && newTile.monster.isScissors) ||
-                        (this.isScissors && newTile.monster.isPaper)){
-                        this.bonusAttack = (1 + this.base_bonus) * this.anti_multiplier;
-                    } else if((this.isPaper && newTile.monster.isScissors) ||
-                        (this.isScissors && newTile.monster.isRock) ||
-                        (this.isRock && newTile.monster.isPaper)){
-                        this.bonusAttack = -(1 + this.base_bonus) * this.anti_multiplier;
-                    }
-                    newTile.monster.hit(this.base_damage + this.bonusAttack);
-                    if (this.bonusAttack > 0) {
-                        newTile.setEffect(24);
-                    } else if (this.bonusAttack < 0) {
-                        newTile.setEffect(25);
-                    }
-                    this.bonusAttack = 0;
+                // console.log("Attack Log:");
+                // console.log("This is Player? " + this.isPlayer.toString());
+                // console.log("This Antimultiplier: " + this.anti_multiplier.toString());
+                // console.log("Other is Player? " + newTile.monster.isPlayer.toString());
+                // console.log("Other Antimultiplier: " + newTile.monster.anti_multiplier.toString());
+                this.attackedThisTurn = true;
+                newTile.monster.stunned = true; // monster attacks will stun each other, can remove this if needed
+                if((this.isPaper && newTile.monster.isRock) ||
+                    (this.isRock && newTile.monster.isScissors) ||
+                    (this.isScissors && newTile.monster.isPaper)){
+                    this.bonusAttack = (1 + this.base_bonus) * newTile.monster.anti_multiplier;
+                } else if((this.isPaper && newTile.monster.isScissors) ||
+                    (this.isScissors && newTile.monster.isRock) ||
+                    (this.isRock && newTile.monster.isPaper)){
+                    this.bonusAttack = -(1 + this.base_bonus) * newTile.monster.anti_multiplier;
+                }
+                // console.log("BonusAttack: " + this.bonusAttack);
+                newTile.monster.hit(this.base_damage + this.bonusAttack);
+                if (this.bonusAttack > 0) {
+                    newTile.setEffect(24);
+                } else if (this.bonusAttack < 0) {
+                    newTile.setEffect(25);
+                }
+                this.bonusAttack = 0;
 
-                    shakeAmount = 5;
-                    
-                    this.offsetX = (newTile.x - this.tile.x)/2;
-                    this.offsetY = (newTile.y - this.tile.y)/2;
+                shakeAmount = 5;
+                
+                this.offsetX = (newTile.x - this.tile.x)/2;
+                this.offsetY = (newTile.y - this.tile.y)/2;
                 // }
             }
             return true;
