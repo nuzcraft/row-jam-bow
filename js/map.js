@@ -22,6 +22,86 @@ function generateLevel(){
     }
 }
 
+function getWallTileSprite(x, y){
+    // this function is supposed to return what sprite the wall should be using
+    var wall_to_north = false;
+    var wall_to_south = false;
+    var wall_to_east = false;
+    var wall_to_west = false;
+    if (inWallBounds(x + 1, y) && !inBounds(x + 1, y)){ //east is in the border
+        wall_to_east = true;
+    }
+    if (inWallBounds(x - 1, y) && !inBounds(x - 1, y)){ //west is in the border
+        wall_to_west = true;
+    }
+    if (inWallBounds(x, y + 1) && !inBounds(x, y + 1)){ //south is in the border
+        wall_to_south = true;
+    }
+    if (inWallBounds(x, y - 1) && !inBounds(x, y - 1)){ //north is in the border
+        wall_to_north = true;
+    }
+
+    if (inBounds(x + 1, y) && !tiles[x + 1][y].passable) { // east is a wall
+        wall_to_east = true;
+    }
+    if (inBounds(x - 1, y) && !tiles[x - 1][y].passable) { // west is a wall
+        wall_to_west = true;
+    }
+    if (inBounds(x, y + 1) && !tiles[x][y + 1].passable) { // south is a wall
+        wall_to_south = true;
+    }
+    if (inBounds(x, y - 1) && !tiles[x][y - 1].passable) { // north is a wall
+        wall_to_north = true;
+    }
+
+
+    // start returning the right sprites
+    // start with corners
+    if (wall_to_north && wall_to_east && !wall_to_south && !wall_to_west){
+        return spr_wall_corner_bottom_left
+    }
+    if (wall_to_north && !wall_to_east && !wall_to_south && wall_to_west){
+        return spr_wall_corner_bottom_right
+    }
+    if (!wall_to_north && wall_to_east && wall_to_south && !wall_to_west){
+        return spr_wall_corner_top_left
+    }
+    if (!wall_to_north && !wall_to_east && wall_to_south && wall_to_west){
+        return spr_wall_corner_top_right
+    }
+    // now ts
+    if (wall_to_north && !wall_to_east && wall_to_south && wall_to_west){
+        return spr_wall_t_vert_left
+    }
+    if (wall_to_north && wall_to_east && wall_to_south && !wall_to_west){
+        return spr_wall_t_vert_right
+    }
+    if (!wall_to_north && wall_to_east && wall_to_south && wall_to_west){
+        return spr_wall_t_horiz_down
+    }
+    if (wall_to_north && wall_to_east && !wall_to_south && wall_to_west){
+        return spr_wall_t_horiz_up
+    }
+    // now verts and horiz
+    if (!wall_to_north && !wall_to_south){
+        if (wall_to_west || wall_to_east){
+            return spr_wall_horiz
+        }
+    }
+    if (!wall_to_east && !wall_to_west){
+        if (wall_to_north || wall_to_south){
+            return spr_wall_vert
+        }
+    }
+    // cross
+    if (wall_to_north && wall_to_south && wall_to_east && wall_to_west){
+        return spr_wall_cross
+    }
+    
+    // last option is the normal wall
+    return spr_wall
+}
+
 function generateTiles(){
     // this function will generate a tiles for the map. The entire border is wall
     // and ~30% of the map should be wall (besides the outer wall)
@@ -38,6 +118,15 @@ function generateTiles(){
             }
         }
     }
+
+    for(let i=0;i<numTiles;i++){
+        for(let j=0;j<numTiles;j++){
+            if (!tiles[i][j].passable){
+                tiles[i][j].sprite = getWallTileSprite(i,j);
+            }
+        }
+    }
+
     return passableTiles;
 }
 
@@ -46,11 +135,18 @@ function inBounds(x, y){
     return x>0 && y>0 && x<numTiles-1 && y<numTiles-1
 }
 
+function inWallBounds(x, y){
+    // this will return true if on the border or inside the border
+    return x>=0 && y>=0 && x<=numTiles-1 && y<=numTiles-1
+}
+
 function getTile(x, y){
     if(inBounds(x, y)){
         return tiles[x][y];
     }else{
-        return new Wall(x, y);
+        var wall = new Wall(x, y);
+        wall.sprite = getWallTileSprite(x, y);
+        return wall;
     }
 }
 
@@ -87,9 +183,9 @@ function spawnMonster(level){
 function chooseMonsterType(level){  
 
   if(level < 4){    
-    // return shuffleMonsters(monster_normal);
+    return shuffleMonsters(monster_normal);
     // DEBUG
-    return shuffleMonsters(monster_anti);
+    // return shuffleMonsters(monster_anti);
   }
   else if(level < 7){
     return[shuffleMonsters(monster_normal)[0],...shuffleMonsters(monster_anti)]

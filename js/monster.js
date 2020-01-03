@@ -47,7 +47,7 @@ class Monster{
 
     draw(){
         if(this.teleportCounter > 0){
-            drawSprite(10, this.getDisplayX(), this.getDisplayY());
+            drawSprite(spr_warp, this.getDisplayX(), this.getDisplayY());
         } else {
             drawSprite(this.sprite, this.getDisplayX(), this.getDisplayY());
             this.drawHp();
@@ -62,13 +62,13 @@ class Monster{
         for(let i=0; i<this.hp; i++){
             if (i%2 == 0){ // draw the first half of the health boop
                 drawSprite(
-                    9,
+                    spr_heart_first_half,
                     this.getDisplayX() + (i%6)*(2/16),
                     this.getDisplayY() - Math.floor(i/6)*(5/16)
                 );
             } else if (i%2 == 1){ // draw the second half of the health boop
                 drawSprite(
-                    21,
+                    spr_heart_second_half,
                     this.getDisplayX() + (i%6)*(2/16),
                     this.getDisplayY() - Math.floor(i/6)*(5/16)
                 );
@@ -103,9 +103,9 @@ class Monster{
                 // console.log("BonusAttack: " + this.bonusAttack);
                 newTile.monster.hit(this.base_damage + this.bonusAttack);
                 if (this.bonusAttack > 0) {
-                    newTile.setEffect(24);
+                    newTile.setEffect(spr_strong_effect);
                 } else if (this.bonusAttack < 0) {
-                    newTile.setEffect(25);
+                    newTile.setEffect(spr_weak_effect);
                 }
                 this.bonusAttack = 0;
 
@@ -138,7 +138,7 @@ class Monster{
     die(){
         this.dead = true;
         this.tile.monster = null;
-        this.sprite = 1;
+        this.sprite = spr_player_dead;
         if (this.rebirth){ // possibly add a level restriction here if it gets too hard
             spawnWeakMonster();
         }
@@ -158,7 +158,7 @@ class Monster{
 
 class Player extends Monster{
     constructor(tile){
-        super(tile, 22, 3);
+        super(tile, spr_player_rock, 3);
         this.isPlayer = true;
         this.teleportCounter = 0;
         // this.spells = shuffle(Object.keys(spells)).splice(0, numSpells);
@@ -181,7 +181,7 @@ class Player extends Monster{
     }
     addSpell(){
         // this will let us upgrade our spells
-        let max_spell_level = 1;
+        let max_spell_level = 2;
         if (level >= 3){
             max_spell_level = 2;
         } else if (level >= 6){
@@ -214,17 +214,17 @@ class Player extends Monster{
             this.isRock = false;
             this.isPaper = true;
             this.isScissors = false;
-            this.sprite = 0;
+            this.sprite = spr_player_paper;
         } else if (this.isPaper){
             this.isRock = false;
             this.isPaper = false;
             this.isScissors = true;
-            this.sprite = 23;
+            this.sprite = spr_player_scissors;
         } else { // isScissors
             this.isRock = true;
             this.isPaper = false;
             this.isScissors = false;
-            this.sprite = 22;
+            this.sprite = spr_player_rock;
         }
         tick(); // cycling takes a turn
     }
@@ -256,7 +256,7 @@ class Player extends Monster{
 
 class Rock extends Monster{
     constructor(tile){
-        super(tile, 4, 4);
+        super(tile, spr_rock, 4);
         this.isRock = true;
         this.base_damage = 2;
         this.name = "Rock";
@@ -272,7 +272,7 @@ class Rock extends Monster{
 
 class Paper extends Monster{
     constructor(tile){
-        super(tile, 5, 3);
+        super(tile, spr_paper, 3);
         this.isPaper = true;
         this.base_damage = 2;
         this.name = "Paper";
@@ -281,7 +281,7 @@ class Paper extends Monster{
 
 class Scissors extends Monster{
     constructor(tile){
-        super(tile, 6, 2);
+        super(tile, spr_scissors, 2);
         this.isScissors = true;
         this.base_damage = 2;
         this.name = "Scissors";
@@ -298,7 +298,7 @@ class Scissors extends Monster{
 
 class Rock_Plus extends Monster{
     constructor(tile){
-        super(tile, 7, 8);
+        super(tile, spr_rock_plus, 8);
         this.isRock = true;
         this.base_bonus = 1;
         this.base_damage = 4;
@@ -314,7 +314,7 @@ class Rock_Plus extends Monster{
 
 class Paper_Plus extends Monster{
     constructor(tile){
-        super(tile, 8, 6);
+        super(tile, spr_paper_plus, 6);
         this.isPaper = true;
         this.base_bonus = 1;
         this.base_damage = 4;
@@ -323,7 +323,7 @@ class Paper_Plus extends Monster{
 
 class Scissors_Plus extends Monster{
     constructor(tile){
-        super(tile, 17, 4);
+        super(tile, spr_scissors_plus, 4);
         this.isScissors = true;
         this.base_bonus = 1;
         this.base_damage = 4;
@@ -340,7 +340,7 @@ class Scissors_Plus extends Monster{
 
 class Rock_Anti extends Monster{
     constructor(tile){
-        super(tile, 18, 4);
+        super(tile, spr_rock_anti, 4);
         this.isRock = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
@@ -357,7 +357,7 @@ class Rock_Anti extends Monster{
 
 class Paper_Anti extends Monster{
     constructor(tile){
-        super(tile, 19, 3);
+        super(tile, spr_paper_anti, 3);
         this.isPaper = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;
@@ -367,7 +367,7 @@ class Paper_Anti extends Monster{
 
 class Scissors_Anti extends Monster{
     constructor(tile){
-        super(tile, 20, 2);
+        super(tile, spr_scissors_anti, 2);
         this.isScissors = true;
         this.base_damage = 2;
         this.anti_multiplier = -1;

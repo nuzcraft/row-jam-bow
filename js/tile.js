@@ -49,7 +49,7 @@ class Tile{
 	draw(){
 		drawSprite(this.sprite, this.x, this.y);
 		if (this.treasure){
-			drawSprite(12, this.x, this.y);
+			drawSprite(spr_coin, this.x, this.y);
 		}
 	}
 
@@ -70,7 +70,17 @@ class Tile{
 
 class Floor extends Tile {
 	constructor(x, y){
-		super(x, y, 2, true);
+		// grab a number between 0 and 9
+		var random_num = Math.floor(Math.random() * 15);
+		var sprite = spr_floor;
+		if (random_num == 0) {
+			// 7.5% chance for grass
+			sprite = spr_grass;
+		} else if (random_num == 1) {
+			// 7.5% chance for little rocks
+			sprite = spr_little_rocks;
+		}
+		super(x, y, sprite, true);
 	};
 	stepOn(monster){
 		if(monster.isPlayer && this.treasure){
@@ -88,13 +98,13 @@ class Floor extends Tile {
 
 class Wall extends Tile{
 	constructor(x, y){
-		super(x, y, 3, false);
+		super(x, y, spr_wall, false);
 	}
 }
 
 class Exit extends Tile{
 	constructor(x, y){
-		super(x, y, 11, true);
+		super(x, y, spr_exit, true);
 	}
 
 	stepOn(monster){

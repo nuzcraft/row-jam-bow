@@ -1,5 +1,53 @@
 var hoverMenu = false;
 
+// sprite indexes constants
+const spr_player_paper = 1;
+const spr_player_dead = 5;
+const spr_floor = 20;
+const spr_wall = 13;
+const spr_rock = 24;
+const spr_paper = 25;
+const spr_scissors = 26;
+const spr_rock_plus = 27;
+const spr_paper_plus = 28;
+const spr_heart_first_half = 3;
+const spr_warp = 41;
+const spr_exit = 23;
+const spr_coin = 40;
+const spr_dot_effect = 42;
+const spr_explosion = 43;
+const spr_horiz_bolt = 44;
+const spr_vert_bolt = 45;
+const spr_scissors_plus = 29;
+const spr_rock_anti = 30;
+const spr_paper_anti = 31;
+const spr_scissors_anti = 32;
+const spr_heart_second_half = 4;
+const spr_player_rock = 0;
+const spr_player_scissors = 2;
+const spr_strong_effect = 46;
+const spr_weak_effect = 47;
+// 8, 16, 24, 32, 40, 48, 56, 64
+const spr_grass = 21;
+const spr_little_rocks = 22;
+const spr_wall_corner_top_left = 8;
+const spr_wall_corner_top_right = 9;
+const spr_wall_corner_bottom_left = 10;
+const spr_wall_horiz = 11;
+const spr_wall_vert = 12;
+const spr_wall_t_horiz_down = 14;
+const spr_wall_t_horiz_up = 15;
+const spr_wall_corner_bottom_right = 16;
+const spr_wall_t_vert_right = 17;
+const spr_wall_t_vert_left = 18;
+const spr_wall_cross = 19;
+
+//colors
+const color_white = "#fafafa";
+const color_purple = "#9569c8";
+const color_yellow = "#f9d381";
+const color_blue = "#9ad1f9";
+
 function setupCanvas() {
 	canvas = document.querySelector("canvas");
 	ctx = canvas.getContext("2d");
@@ -14,8 +62,8 @@ function setupCanvas() {
 function drawSprite(sprite, x, y) {
 	ctx.drawImage(
 		spritesheet,
-		sprite*16,
-		0,
+		(sprite % 8) * 16,
+		Math.floor(sprite / 8) * 16,
 		16,
 		16,
 		x*tileSize + shakeX,
@@ -49,8 +97,8 @@ function draw() {
 			}
 		}
 
-		drawText("Level: " + level, 30, false, 40, "violet");
-		drawText("Score: " + score, 30, false, 70, "violet");
+		drawText("Level: " + level, 30, false, 40, color_purple);
+		drawText("Score: " + score, 30, false, 70, color_purple);
 
 		let garbed_in = "";
 		if (player.isRock){
@@ -62,13 +110,14 @@ function draw() {
 		} else {
 			garbed_in = "nothing";
  		}
-		drawText("garbed in: " + garbed_in, 20, false, 100, "yellow");
+		drawText("garbed in: " + garbed_in, 20, false, 100, color_yellow);
 
 	player.spells.forEach((spell, index) => drawSpells(spell, index))
 	
 	// give them the option to trade life for an extra spell
-	drawText("t) trade life for", 20, false, 545, "aqua");
-	drawText("   a new spell", 20, false, 560, "aqua");
+	drawText("t) trade life for", 20, false, 545, color_blue);
+	drawText("   a new spell", 20, false, 560, color_blue);
+	drawText("i) for helpful info!", 12, false, 573, color_white);
 }
 
 
@@ -78,15 +127,15 @@ function drawSpells( spell, index ) {
   {
 	if (spells[spell].damage_type)
 	{
-		drawText(`${spells[spell].name} (${spells[spell].damage_type || ""})`, 15, false, 120+index*40, "aqua");
+		drawText(`${spells[spell].name} (${spells[spell].damage_type || ""})`, 15, false, 120+index*40, color_blue);
 	} else {
-		drawText(`${spells[spell].name}`, 15, false, 120+index*40, "aqua");
+		drawText(`${spells[spell].name}`, 15, false, 120+index*40, color_blue);
 	}
-	drawText(`${spells[spell].description}`, 15, false, 135+index*40, "aqua");
+	drawText(`${spells[spell].description}`, 15, false, 135+index*40, color_blue);
   }
   else 
   {
-    drawText(spellText, 20, false, 120+index*40, "aqua");
+    drawText(spellText, 20, false, 120+index*40, color_blue);
   }      
 }
 }
@@ -112,13 +161,38 @@ function tick(){
 }
 
 function showTitle(){
-	ctx.fillStyle = 'rgba(0,0,0,.75)';
+	ctx.fillStyle = 'rgba(75,75,75,.85)';
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	gameState = "title";
-	drawText("ROW JAM BROUGH", 70, true, canvas.height / 2 - 110, "white");
-	drawText("~a rock,paper,scissors broughlike~", 25, true, canvas.height / 2 - 70, "white");
+	drawText("ROW JAM BROUGH", 70, true, canvas.height / 2 - 110, color_white);
+	drawText("~a rock,paper,scissors broughlike~", 25, true, canvas.height / 2 - 70, color_white);
+	drawText("WASD keys to start", 20, true, canvas.height / 2 - 35, color_yellow);
 
 	drawScores();
+}
+
+function showInstructions(){
+	ctx.fillStyle = 'rgba(75, 75, 75, .85)';
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	gameState = "instructions";
+	drawText("INFORMATION", 70, true, canvas.height / 2 - 200, color_white);
+	drawText("Collecting coins increases your score and", 25, true, canvas.height / 2  - 170, color_purple);
+	drawText("allows you to hold more spells!", 25, true, canvas.height / 2 - 150, color_purple);
+	drawText("WASD to move", 40, true, canvas.height / 2 - 110, color_blue);
+	drawText("Numbers 1-9 to cast spells", 30, true, canvas.height / 2 - 80, color_blue);
+	drawText("Space Bar to cycle forms (rock, paper, scissors)", 30, true, canvas.height / 2 - 50, color_blue);
+	drawText("Mouse hover over spells for a description", 30, true, canvas.height / 2 - 20, color_blue);
+
+	drawText("Rock beats Scissors.", 45, true, canvas.height / 2 + 50, color_yellow);
+	drawText("Scissors beats Paper.", 45, true, canvas.height / 2 + 100, color_yellow);
+	drawText("Paper beats Rock.", 45, true, canvas.height / 2 + 150, color_yellow);
+	drawText("Press Space to cycle forms", 45, true, canvas.height / 2 + 200, color_yellow);
+	drawText("to use this to your advantage!", 45, true, canvas.height / 2 + 250, color_yellow);
+}
+
+function returnToGame() {
+	gameState = "running";
+	draw();
 }
 
 function startGame(){
@@ -148,17 +222,17 @@ function startLevel(playerHp, playerState, playerSpells){
 			player.isRock = true;
 			player.isPaper = false;
 			player.isScissors = false;
-			player.sprite = 22;
+			player.sprite = spr_player_rock;
 		} else if (playerState == "paper"){
 			player.isRock = false;
 			player.isPaper = true;
 			player.isScissors = false;
-			player.sprite = 0;
+			player.sprite = spr_player_paper;
 		} else if (playerState == "scissors"){
 			player.isRock = false;
 			player.isPaper = false;
 			player.isScissors = true;
-			player.sprite = 23;
+			player.sprite = spr_player_scissors;
 		}
 	}
 	if(playerSpells){
@@ -213,7 +287,7 @@ function drawScores(){
 			18,
 			true,
 			canvas.height / 2,
-			"white"
+			color_white
 		);
 
 		let newestScore = scores.pop();
@@ -229,7 +303,7 @@ function drawScores(){
 				18,
 				true,
 				canvas.height / 2 + 24 + i*24,
-				i == 0 ? "aqua":"violet"
+				i == 0 ? color_blue:color_purple
 			);
 		}
 	}

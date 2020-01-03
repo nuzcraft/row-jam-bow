@@ -2,11 +2,11 @@
 <title>ROW JAM BROUGH</title>
 <style>
 	canvas {
-		outline: 1px solid white;
+		outline: 1px solid #fafafa;
 	}
 	
 	body {
-		background-color: indigo;
+		background-color: #4b4b4b;
 		text-align: center;
 		margin-top: 50px;
 	}
@@ -55,7 +55,11 @@
       
 			if(e.key>=1 && e.key<=9) player.castSpell(e.key-1);
 
-			if((e.key==" ") || (e.key=="Spacebar")) player.cycle()
+			if((e.key==" ") || (e.key=="Spacebar")) player.cycle();
+
+			if(e.key=="i") showInstructions();
+		} else if (gameState == "instructions"){
+			returnToGame();
 		}
 	};
 	

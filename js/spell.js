@@ -16,10 +16,10 @@ spells = {
                         bonusAttack = 0;
                         if (tile.monster.isScissors){
                             bonusAttack = 1;
-                            tile.setEffect(24);
+                            tile.setEffect(spr_strong_effect);
                         } else if (tile.monster.isPaper){
                             bonusAttack = -1;
-                            tile.setEffect(25);
+                            tile.setEffect(spr_weak_effect);
                         }
                         let numWalls = 4 - tile.getAdjacentPassableNeighbors().length;
                         tile.monster.hit(numWalls*2 + bonusAttack);
@@ -55,7 +55,7 @@ spells = {
     AURA: {
         funct: function() {
             player.tile.getAdjacentNeighbors().forEach(function(t){
-                t.setEffect(13);
+                t.setEffect(spr_dot_effect);
                 if(t.monster){
                     t.monster.heal(1);
                 }
@@ -81,15 +81,16 @@ spells = {
             if(player.tile != newTile){
                 player.move(newTile);
                 newTile.getAdjacentNeighbors().forEach(t => {
-                    t.setEffect(14); // base effect
+                    t.setEffect(spr_explosion); // base effect
                     if(t.monster){
                         // check to see if the monster is rock or scissors
+                        var bonusAttack = 0;
                         if (t.monster.isRock){
                             bonusAttack = 1;
-                            t.setEffect(24);
+                            t.setEffect(spr_strong_effect);
                         } else if (t.monster.isScissors){
                             bonusAttack = -1;
-                            t.setEffect(25);
+                            t.setEffect(spr_weak_effect);
                         }
                         t.monster.stunned = true;
                         t.monster.hit(1 + bonusAttack);
@@ -116,7 +117,7 @@ spells = {
             player.tile.setEffect(13);
             player.heal(2);
         },
-        description: "remove all walls",
+        description: "remove all walls and heal",
         name: "DIG",
         rarity: 2
     },
@@ -176,8 +177,13 @@ spells = {
     },
     SCISSOR_SHOT: {
         funct: function(){
-            // boltTravel(player.lastMove, 15 + Math.abs(player.lastMove[1]), 4, scissors);
-            boltTravel(player.lastMove, 20, 4, "scissors");
+            var sprite = spr_horiz_bolt;
+            if (Math.abs(player.lastMove[1] == 1)){
+               var sprite = spr_vert_bolt; 
+            }
+            boltTravel(player.lastMove, sprite, 4, "scissors");
+            // boltTravel(player.lastMove, 15 + Math.abs(player.lastMove[1]), 4, "scissors");
+            // boltTravel(player.lastMove, spr_scissors_anti, 4, "scissors");
         },
         description: "shoot scissors",
         damage_type: "scissors",
@@ -194,7 +200,7 @@ spells = {
             ];
             for(let k=0;k<directions.length;k++){
                 // boltTravel(directions[k], 15+Math.abs(directions[k][1]), 2, rock);
-                boltTravel(directions[k], 18, 2, "rock");
+                boltTravel(directions[k], spr_rock_anti, 2, "rock");
             }
         },
         description: "throw rocks horiz and vert",
@@ -211,7 +217,7 @@ spells = {
                 [1, 1]
             ];
             for (let k=0; k<directions.length;k++){
-                boltTravel(directions[k], 5, 3, "paper");
+                boltTravel(directions[k], spr_paper, 3, "paper");
             }
         },
         description: "blast paper diagonally",
@@ -231,10 +237,10 @@ function boltTravel(direction, effect, damage, damage_type){
                 bonusAttack = 0;
                 if (newTile.monster.isScissors){
                     bonusAttack = 1;
-                    newTile.setEffect(24);
+                    newTile.setEffect(spr_strong_effect);
                 } else if (newTile.monster.isPaper){
                     bonusAttack = -1;
-                    newTile.setEffect(25);
+                    newTile.setEffect(spr_weak_effect);
                 }
                 newTile.monster.hit(damage);
             }

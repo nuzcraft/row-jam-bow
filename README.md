@@ -3,10 +3,17 @@
 This is based on the Javascript Broughlike Tutorial at https://nluqo.github.io/broughlike-tutorial/index.html.
 
 ### Controls
-WASD to move. Number keys to cast spells. Space to cycle forms (rock, paper, scissors). 't' to trade life for a new spell. Mouse hover over spells to see a description.
+WASD to move. Number keys to cast spells. Space to cycle forms (rock, paper, scissors). 't' to trade life for a new spell. Mouse hover over spells to see a description. 'i' for info screen.
 
 ## Development Log
 Source Code available at https://github.com/nuzcraft/row-jam-bow
+
+### v1.0 "Release"
+Fully revamped graphics!
+- special thanks to Quale for their sprites!
+- updated the engine to handle a different spritesheet layout
+- fixed a few  minor bugs
+- added an info screen (press 'i')
 
 ### v0.3 "Collaboration"
 - special thanks to Felipe Brunetti (@felipebrunetti94) for their pull requests!
